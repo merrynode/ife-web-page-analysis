@@ -10,7 +10,7 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/index.css" rel="stylesheet">
-
+    <script src="js/lib/vue.min.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -25,13 +25,13 @@
         <li class="active"><a href="#">百度前端学院</a></li>
     </ul>
 </nav>
-<div class="test-result center-block" id="test">
+<div class="test-result center-block" id="test" v-cloak>
     <div class="panel panel-default">
         <div class="panel-heading">网页抓取分析服务</div>
         <div class="panel-body center-block row">
             <div class="col-md-4">
                 <div class="input-group">
-                    <input v-model="keyword" type="text" class="form-control" placeholder="请输入抓取关键字" aria-label="...">
+                    <input v-model="keyword" type="text" required class="form-control" placeholder="请输入抓取关键字" aria-label="...">
                     <div class="input-group-btn">
                         <button v-on:click="test" type="button" class="btn btn-primary">开始</button>
                     </div><!-- /btn-group -->
@@ -68,7 +68,7 @@
                     <td style="max-width: 50px">
                         <div class="row">
                             <div class="col-xs-12 col-md-12">
-                                <a href="#" class="thumbnail">
+                                <a class="thumbnail" v-if="data.path">
                                     <img v-bind:src="data.path"
                                          alt="...">
                                 </a>
@@ -87,7 +87,6 @@
 <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/lib/bootstrap.min.js"></script>
-<script src="js/lib/vue.min.js"></script>
 <script src="js/lib/socket.io-client.min.js"></script>
 <script src="js/index.js"></script>
 </body>

@@ -10,7 +10,7 @@ socket.on('disconnect', function () {
 var test = new Vue({
     el: '#test',
     data: {
-        keyword: 'ife',
+        keyword: '',
         deviceNames: [{
             name: 'iPhone5', select: true
         }, {
@@ -26,6 +26,16 @@ var test = new Vue({
     methods: {
         test: function () {
             var taskList = this.getTask();
+            if ( !this.keyword ) {
+                return alert('请输入关键字!');
+            }
+            if (! (this.limit > 0) ) {
+                return alert('页数请大于0!');
+            }
+            if ( taskList.length <= 0 ) {
+                return alert('请至少选择一个设备!');
+            }
+
             this.progress += taskList.length;
             socket.emit('task', {keyword: this.keyword, deviceNames: taskList, limit: this.limit});
         },
@@ -38,7 +48,7 @@ var test = new Vue({
                 d.path = d.picName && '/pic/' + d.picName;
                 return d;
             })
-            thisDataList.push.apply(thisDataList, info);
+            thisDataList.unshift.apply(thisDataList, info);
         },
         getTask: function () {
             return this.deviceNames.filter(function (device) {

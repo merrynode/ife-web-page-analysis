@@ -1,5 +1,5 @@
 const createPhantomPool = require('phantom-pool').default;
-const fs      = require('fs');
+const fs = require('fs');
 const request = require('superagent');
 const queryString = require('querystring');
 
@@ -47,18 +47,19 @@ function downloadPic(link) {
  * @return {Object} 抓取结果
  * */
 async function task(keyword, deviceName, limit = 1) {
-    try {
-        let device = deviceList[deviceName];
-        let searchURL = `https://www.baidu.com/s?wd=${keyword}`;
+    let device = deviceList[deviceName];
+    let searchURL = `https://www.baidu.com/s?wd=${keyword}`;
 
-        return pool.use(async (instance) => {
+    return pool.use(async(instance) => {
+        try {
+
             const page = await instance.createPage();
 
             let startTime = Date.now(); // 记录抓取开始时间
 
             const status = await page.open(searchURL);
 
-            if (status !== 'success') throw Error({ message: '打开页面失败!' });
+            if (status !== 'success') throw Error({message: '打开页面失败!'});
             // 检测是否为正确的设备配置
             if (device) {
                 // 设置 User-Agent
@@ -72,9 +73,9 @@ async function task(keyword, deviceName, limit = 1) {
 
             let dataList = [];  // 信息列表
 
-            await new Promise(async (resolve, reject) => {
+            await new Promise(async(resolve, reject) => {
 
-                page.on('onUrlChanged', async (targetUrl) => {
+                page.on('onUrlChanged', async(targetUrl) => {
 
                     if (targetUrl === 'about:blank') return;
 
@@ -89,7 +90,7 @@ async function task(keyword, deviceName, limit = 1) {
                     if (limit > pagination) {
                         await wait(1000);
                         await goNextPage();
-                    } else if (limit === pagination) {
+                    } else if (limit == pagination) {
                         await instance.exit();
                         resolve();
                     } else {
@@ -103,7 +104,7 @@ async function task(keyword, deviceName, limit = 1) {
             })
 
             // 下载缩略图到本地，并生成唯一图片名
-            for (let i = 0; i < dataList.length; i ++) {
+            for (let i = 0; i < dataList.length; i++) {
                 dataList[i].picName = dataList[i].pic ? await downloadPic(dataList[i].pic) : '';
             }
 
@@ -120,8 +121,8 @@ async function task(keyword, deviceName, limit = 1) {
 
             // 提取页面数据
             function extractDate() {
-                return page.evaluate(function() {
-                    return $('#content_left .result.c-container').map(function() {
+                return page.evaluate(function () {
+                    return $('#content_left .result.c-container').map(function () {
                         var info = {};
                         info.title = $(this).find('.t').text() || '';
                         info.link = $(this).find('.t > a').attr('href') || '';
@@ -145,10 +146,10 @@ async function task(keyword, deviceName, limit = 1) {
                     $('#page .n:contains(下一页)').click();
                 });
             }
-        })
-
-    } catch (err) {
-        console.error(err);
-        return { code: 0, msg: 抓取失败, err: err.message };
-    }
+        } catch (err) {
+            instance.exit();
+            console.error(err);
+            return {code: 0, msg: 抓取失败, err: err.message};
+        }
+    })
 }
