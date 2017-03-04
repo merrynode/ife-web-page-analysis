@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>ife-网页抓取分析服务</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <
+    <ul class="nav navbar-nav">
+        <li class="active"><a href="#">百度前端学院</a></li>
+    </ul>
+</nav>
+<div class="test-result center-block" id="test">
+    <div class="panel panel-default">
+        <div class="panel-heading">网页抓取分析服务</div>
+        <div class="panel-body center-block row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input v-model="keyword" type="text" class="form-control" placeholder="请输入抓取关键字" aria-label="...">
+                    <div class="input-group-btn">
+                        <button v-on:click="test" type="button" class="btn btn-primary">开始</button>
+                    </div><!-- /btn-group -->
+                </div><!-- /input-group -->
+            </div>
+            <div class="col-md-1">
+                <input v-model="limit" type="number" class="form-control" placeholder="页数" aria-label="...">
+            </div>
+            <div class="form-group col-md-3">
+                <span v-for="device in deviceNames">
+                    <input type="checkbox" v-model="device.select" v-bind:id="device.name">
+                    <label v-bind:for="device.name">{{device.name}}</label>
+                </span>
+            </div>
+            <div class="form-group col-md-3">
+                <span class="label label-primary">处理中：{{ progress }}</span>
+                <span class="label label-success">已完成：{{ finish }}</span>
+                <span class="label label-info">总计：{{progress + finish }}</span>
+            </div>
+        </div>
+        <div class="table">
+            <table class="table table-bordered table-striped table-condensed table-hover" style="table-layout:fixed;">
+                <thead>
+                <tr>
+                    <th>模拟设备名</th>
+                    <th>缩略图</th>
+                    <th>标题</th>
+                    <th>摘要</th>
+                    <th>链接</th>
+                </tr>
+                </thead>
+                <tr v-for="data in dataList">
+                    <td style="max-width: 100px">{{ data.deviceName }}</td>
+                    <td style="max-width: 50px">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                                <a href="#" class="thumbnail">
+                                    <img v-bind:src="data.path"
+                                         alt="...">
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ data.title }}</td>
+                    <td>{{ data.info }}</td>
+                    <td style="word-wrap:break-word;">{{ data.link }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/vue.min.js"></script>
+<script src="js/lib/socket.io-client.min.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>

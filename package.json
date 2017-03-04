@@ -1,0 +1,22 @@
+{
+    "dependencies": {
+        "koa": "^2.0.1",
+        "koa-bodyparser": "next",
+        "koa-logger": "^2.0.1",
+        "koa-static": "next",
+        "koa-views": "next",
+        "mongoose": "^4.8.4",
+        "phantom": "^4.0.0",
+        "phantom-pool": "^1.2.0",
+        "socket.io": "^1.7.3",
+        "superagent": "^3.5.0",
+        "vue": "^2.2.1"
+    },
+    "name": "task4",
+    "version": "1.0.0",
+    "description": "task4",
+    "main": "task4.js",
+    "repository": {},
+    "author": "rabbit",
+    "license": "MIT"
+}
