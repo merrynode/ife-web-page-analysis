@@ -17,5 +17,4 @@ app
     .use(logger())
     .use(router.routes())
 
-
 worker(app.listen(port, () => console.log(`app listen to ${port}`)));
