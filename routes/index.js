@@ -10,6 +10,10 @@ router.get('/', async function (ctx, next) {
     await ctx.render('index');
 })
 
+router.get('/node', async function (ctx, next) {
+    await ctx.render('node');
+})
+
 router.post('/task', async function (ctx, next) {
 
     let {keyword, deviceNames, page} = ctx.request.body;
